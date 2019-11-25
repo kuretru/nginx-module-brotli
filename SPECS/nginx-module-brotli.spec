@@ -25,14 +25,14 @@ Epoch: %{epoch}
 %define _debugsource_template %{nil}
 %endif
 
-%define main_version 1.17.5
+%define main_version 1.17.6
 %define main_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{main_version}
 
 Summary: nginx Brotli dynamic modules
 Name: nginx-module-brotli
-Version: 1.17.5
+Version: 1.17.6
 Release: 1%{?dist}.ngx
 Vendor: Nginx, Inc.
 URL: http://nginx.org/
@@ -50,7 +50,7 @@ License: 2-clause BSD-like license
 BuildRoot: %{_tmppath}/%{name}-%{main_version}-%{main_release}-root
 BuildRequires: zlib-devel
 BuildRequires: pcre-devel
-Requires: nginx == %{?epoch:%{epoch}:}1.17.5-1%{?dist}.ngx
+Requires: nginx == %{?epoch:%{epoch}:}1.17.6-1%{?dist}.ngx
 
 %description
 nginx Brotli dynamic modules.
@@ -146,6 +146,9 @@ BANNER
 fi
 
 %changelog
+* Mon Nov 25 2019 Eugene Wu <kuretru@gmail.com>
+- base version updated to 1.17.6
+
 * Sun Oct 23 2019 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.17.5
 
