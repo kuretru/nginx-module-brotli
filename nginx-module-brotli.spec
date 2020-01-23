@@ -25,7 +25,7 @@ Epoch: %{epoch}
 %define _debugsource_template %{nil}
 %endif
 
-%define main_version 1.17.7
+%define main_version 1.17.8
 %define main_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{main_version}
@@ -144,6 +144,9 @@ BANNER
 fi
 
 %changelog
+* Thu Jan 23 2020 Eugene Wu <kuretru@gmail.com>
+- base version updated to 1.17.8
+
 * Sat Dec 28 2019 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.17.7
 
