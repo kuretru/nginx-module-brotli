@@ -153,7 +153,7 @@ fi
 * Mon Nov 25 2019 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.17.6
 
-* Sun Oct 23 2019 Eugene Wu <kuretru@gmail.com>
+* Wed Oct 23 2019 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.17.5
 
 * Sun Oct 13 2019 Eugene Wu <kuretru@gmail.com>
