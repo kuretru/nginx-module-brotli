@@ -34,16 +34,13 @@ Summary: nginx Brotli dynamic modules
 Name: nginx-module-brotli
 Version: %{main_version}
 Release: %{main_release}
-Vendor: Nginx, Inc.
-URL: http://nginx.org/
+Vendor: Eugene Wu <kuretru@gmail.com>
+URL: https://github.com/kuretru/nginx-module-brotli
 Group: %{_group}
 
 Source0: https://nginx.org/download/nginx-%{main_version}.tar.gz
 Source1: COPYRIGHT
 Source2: ngx_brotli-1.0.7.tar.gz
-
-
-
 
 License: 2-clause BSD-like license
 
@@ -69,8 +66,6 @@ nginx Brotli dynamic modules.
 %setup -qcTn %{name}-%{main_version}
 tar --strip-components=1 -zxf %{SOURCE0}
 tar -zxf %{SOURCE2}
-
-
 
 %build
 
