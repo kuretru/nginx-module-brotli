@@ -30,7 +30,7 @@ Epoch: %{epoch}
 %global _hardened_build 1
 %endif
 
-%define base_version 1.19.3
+%define base_version 1.19.4
 %define base_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{base_version}
@@ -52,7 +52,9 @@ License: 2-clause BSD-like license
 BuildRoot: %{_tmppath}/%{name}-%{base_version}-%{base_release}-root
 BuildRequires: zlib-devel
 BuildRequires: pcre-devel
-Requires: nginx == %{?epoch:%{epoch}:}%{base_version}-%{base_release}
+#Requires: nginx == %{?epoch:%{epoch}:}%{base_version}-%{base_release}
+Requires: nginx-r%{base_version}
+Provides: %{name}-r%{base_version}
 
 %description
 nginx Brotli dynamic modules.
@@ -71,6 +73,8 @@ nginx Brotli dynamic modules.
 %setup -qcTn %{name}-%{base_version}
 tar --strip-components=1 -zxf %{SOURCE0}
 tar -zxf %{SOURCE2}
+
+
 
 %build
 
@@ -146,6 +150,9 @@ BANNER
 fi
 
 %changelog
+* Fri Oct 30 2020 Eugene Wu <kuretru@gmail.com>
+- base version updated to 1.19.4
+
 * Thu Oct 1 2020 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.19.3
 
