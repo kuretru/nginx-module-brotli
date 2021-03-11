@@ -45,7 +45,7 @@ Group: %{_group}
 
 Source0: https://nginx.org/download/nginx-%{base_version}.tar.gz
 Source1: COPYRIGHT
-Source2: ngx_brotli-1.0.7.tar.gz
+Source2: ngx_brotli-1.0.9.tar.gz
 
 License: 2-clause BSD-like license
 
