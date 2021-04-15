@@ -30,7 +30,7 @@ Epoch: %{epoch}
 %global _hardened_build 1
 %endif
 
-%define base_version 1.19.9
+%define base_version 1.19.10
 %define base_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{base_version}
@@ -150,6 +150,9 @@ BANNER
 fi
 
 %changelog
+* Thu Apr 15 2021 Eugene Wu <kuretru@gmail.com>
+- base version updated to 1.19.10
+
 * Wed Mar 31 2021 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.19.9
 
