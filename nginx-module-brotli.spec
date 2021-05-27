@@ -4,7 +4,11 @@
 
 %if 0%{?rhel} || 0%{?amzn} || 0%{?fedora}
 %define _group System Environment/Daemons
+%if 0%{?amzn} >= 2
+BuildRequires: openssl11-devel
+%else
 BuildRequires: openssl-devel
+%endif
 %endif
 
 %if 0%{?suse_version} >= 1315
@@ -13,10 +17,15 @@ BuildRequires: libopenssl-devel
 %define _debugsource_template %{nil}
 %endif
 
-%if 0%{?rhel} == 7
+%if (0%{?rhel} == 7) && (0%{?amzn} == 0)
 %define epoch 1
 Epoch: %{epoch}
 %define dist .el7
+%endif
+
+%if (0%{?rhel} == 7) && (0%{?amzn} == 2)
+%define epoch 1
+Epoch: %{epoch}
 %endif
 
 %if 0%{?rhel} == 8
@@ -30,7 +39,7 @@ Epoch: %{epoch}
 %global _hardened_build 1
 %endif
 
-%define base_version 1.19.10
+%define base_version 1.21.0
 %define base_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{base_version}
@@ -52,14 +61,13 @@ License: 2-clause BSD-like license
 BuildRoot: %{_tmppath}/%{name}-%{base_version}-%{base_release}-root
 BuildRequires: zlib-devel
 BuildRequires: pcre-devel
-#Requires: nginx == %{?epoch:%{epoch}:}%{base_version}-%{base_release}
 Requires: nginx-r%{base_version}
 Provides: %{name}-r%{base_version}
 
 %description
 nginx Brotli dynamic modules.
 
-%if 0%{?suse_version} || 0%{?amzn}
+%if 0%{?suse_version}
 %debug_package
 %endif
 
@@ -150,6 +158,9 @@ BANNER
 fi
 
 %changelog
+* Thu May 27 2021 Eugene Wu <kuretru@gmail.com>
+- base version updated to 1.21.0
+
 * Thu Apr 15 2021 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.19.10
 
