@@ -39,7 +39,7 @@ Epoch: %{epoch}
 %global _hardened_build 1
 %endif
 
-%define base_version 1.21.5
+%define base_version 1.21.6
 %define base_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{base_version}
@@ -158,6 +158,9 @@ BANNER
 fi
 
 %changelog
+* Thu Jan  27 2022 Eugene Wu <kuretru@gmail.com>
+- base version updated to 1.21.6
+
 * Mon Jan  3 2022 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.21.5
 
