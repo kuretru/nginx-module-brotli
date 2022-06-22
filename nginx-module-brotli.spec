@@ -4,7 +4,7 @@
 
 %if 0%{?rhel} || 0%{?amzn} || 0%{?fedora}
 %define _group System Environment/Daemons
-%if 0%{?amzn} >= 2
+%if 0%{?amzn} == 2
 BuildRequires: openssl11-devel
 %else
 BuildRequires: openssl-devel
@@ -34,12 +34,18 @@ Epoch: %{epoch}
 %define _debugsource_template %{nil}
 %endif
 
+%if 0%{?rhel} == 9
+%define epoch 1
+Epoch: %{epoch}
+%define _debugsource_template %{nil}
+%endif
+
 %if 0%{?fedora}
 %define _debugsource_template %{nil}
 %global _hardened_build 1
 %endif
 
-%define base_version 1.21.6
+%define base_version 1.23.0
 %define base_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{base_version}
@@ -94,7 +100,7 @@ cd %{bdir}
 	--with-debug
 make %{?_smp_mflags} modules
 for so in `find %{bdir}/objs/ -type f -name "*.so"`; do
-debugso=`echo $so | sed -e "s|.so|-debug.so|"`
+debugso=`echo $so | sed -e 's|\.so$|-debug.so|'`
 mv $so $debugso
 done
 
@@ -158,7 +164,10 @@ BANNER
 fi
 
 %changelog
-* Thu Jan  27 2022 Eugene Wu <kuretru@gmail.com>
+* Wed Jul 22 2022 Eugene Wu <kuretru@gmail.com>
+- base version updated to 1.23.0
+
+* Thu Jan 27 2022 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.21.6
 
 * Mon Jan  3 2022 Eugene Wu <kuretru@gmail.com>
