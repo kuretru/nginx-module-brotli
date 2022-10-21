@@ -2,6 +2,8 @@
 %define nginx_user nginx
 %define nginx_group nginx
 
+%define __arch_install_post   /usr/lib/rpm/check-rpaths   /usr/lib/rpm/check-buildroot
+
 %if 0%{?rhel} || 0%{?amzn} || 0%{?fedora}
 %define _group System Environment/Daemons
 %if 0%{?amzn} == 2
@@ -45,7 +47,7 @@ Epoch: %{epoch}
 %global _hardened_build 1
 %endif
 
-%define base_version 1.23.1
+%define base_version 1.23.2
 %define base_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{base_version}
@@ -164,6 +166,9 @@ BANNER
 fi
 
 %changelog
+* Fri Oct 21 2022 Eugene Wu <kuretru@gmail.com>
+- base version updated to 1.23.2
+
 * Sat Jul 23 2022 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.23.1
 
