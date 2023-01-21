@@ -47,6 +47,8 @@ Epoch: %{epoch}
 %global _hardened_build 1
 %endif
 
+BuildRequires: gcc
+
 %define base_version 1.23.3
 %define base_release 1%{?dist}.ngx
 
