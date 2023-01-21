@@ -39,6 +39,7 @@ Epoch: %{epoch}
 %if 0%{?rhel} == 9
 %define epoch 1
 Epoch: %{epoch}
+BuildRequires: gcc
 %define _debugsource_template %{nil}
 %endif
 
@@ -46,8 +47,6 @@ Epoch: %{epoch}
 %define _debugsource_template %{nil}
 %global _hardened_build 1
 %endif
-
-BuildRequires: gcc
 
 %define base_version 1.23.3
 %define base_release 1%{?dist}.ngx
@@ -64,7 +63,6 @@ Group: %{_group}
 
 Source0: https://nginx.org/download/nginx-%{base_version}.tar.gz
 Source1: COPYRIGHT
-Source2: ngx_brotli-1.0.9.tar.gz
 
 License: 2-clause BSD-like license
 
@@ -90,7 +88,7 @@ nginx Brotli dynamic modules.
 %prep
 %setup -qcTn %{name}-%{base_version}
 tar --strip-components=1 -zxf %{SOURCE0}
-tar -zxf %{SOURCE2}
+git clone --recursive https://github.com/google/ngx_brotli.git
 
 
 
