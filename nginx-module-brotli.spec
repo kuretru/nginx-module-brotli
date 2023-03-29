@@ -50,7 +50,7 @@ BuildRequires: gcc
 
 BuildRequires: git
 
-%define base_version 1.23.3
+%define base_version 1.23.4
 %define base_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{base_version}
@@ -168,6 +168,9 @@ BANNER
 fi
 
 %changelog
+* Wed Mar 29 2023 Eugene Wu <kuretru@gmail.com>
+- base version updated to 1.23.4
+
 * Sun Jan  1 2023 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.23.3
 
