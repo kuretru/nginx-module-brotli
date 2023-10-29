@@ -49,6 +49,7 @@ BuildRequires: gcc
 %endif
 
 BuildRequires: git
+BuildRequires: cmake
 
 %define base_version 1.25.3
 %define base_release 1%{?dist}.ngx
@@ -91,6 +92,11 @@ nginx Brotli dynamic modules.
 %setup -qcTn %{name}-%{base_version}
 tar --strip-components=1 -zxf %{SOURCE0}
 git clone --recursive https://github.com/google/ngx_brotli.git
+cd ngx_brotli/deps/brotli/
+mkdir out && cd out/
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_C_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_CXX_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_C_COMPILER_WORKS=ON -DCMAKE_INSTALL_PREFIX=./installed ..
+cmake --build . --config Release --target brotlienc
+cd ../../../../
 
 
 
