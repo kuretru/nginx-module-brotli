@@ -22,17 +22,20 @@ BuildRequires: libopenssl-devel
 %if (0%{?rhel} == 7) && (0%{?amzn} == 0)
 %define epoch 1
 Epoch: %{epoch}
+BuildRequires: cmake3
 %define dist .el7
 %endif
 
 %if (0%{?rhel} == 7) && (0%{?amzn} == 2)
 %define epoch 1
 Epoch: %{epoch}
+BuildRequires: cmake3
 %endif
 
 %if 0%{?rhel} == 8
 %define epoch 1
 Epoch: %{epoch}
+BuildRequires: cmake
 %define _debugsource_template %{nil}
 %endif
 
@@ -40,6 +43,7 @@ Epoch: %{epoch}
 %define epoch 1
 Epoch: %{epoch}
 BuildRequires: gcc
+BuildRequires: cmake
 %define _debugsource_template %{nil}
 %endif
 
@@ -49,7 +53,6 @@ BuildRequires: gcc
 %endif
 
 BuildRequires: git
-BuildRequires: cmake
 
 %define base_version 1.25.4
 %define base_release 1%{?dist}.ngx
@@ -89,13 +92,31 @@ nginx Brotli dynamic modules.
 %define MODULE_CONFIGURE_ARGS $(echo "--add-dynamic-module=./ngx_brotli/")
 
 %prep
+
+%if (0%{?rhel} == 7)
+%global cmake cmake3
+%else
+%global cmake cmake
+%endif
+
 %setup -qcTn %{name}-%{base_version}
 tar --strip-components=1 -zxf %{SOURCE0}
 git clone --recursive https://github.com/google/ngx_brotli.git
 cd ngx_brotli/deps/brotli/
 mkdir out && cd out/
-cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_C_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_CXX_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_C_COMPILER_WORKS=1 -DCMAKE_INSTALL_PREFIX=./installed ..
-cmake --build . --config Release --target brotlienc
+
+%ifarch aarch64
+%{cmake} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF \
+	-DCMAKE_C_FLAGS="-Ofast -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" \
+	-DCMAKE_CXX_FLAGS="-Ofast -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" \
+	-DCMAKE_C_COMPILER_WORKS=1 -DCMAKE_INSTALL_PREFIX=./installed ..
+%else
+%{cmake} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF \
+	-DCMAKE_C_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" \
+	-DCMAKE_CXX_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" \
+	-DCMAKE_C_COMPILER_WORKS=1 -DCMAKE_INSTALL_PREFIX=./installed ..
+%endif
+%{cmake} --build . --config Release --target brotlienc
 cd ../../../../
 
 
