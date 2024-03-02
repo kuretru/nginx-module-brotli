@@ -23,6 +23,7 @@ BuildRequires: libopenssl-devel
 %define epoch 1
 Epoch: %{epoch}
 BuildRequires: cmake3
+BuildRequires: perl-IPC-Cmd
 %define dist .el7
 %endif
 
@@ -54,6 +55,8 @@ BuildRequires: cmake
 
 BuildRequires: git
 
+%define openssl_version 3.1.4-quic1
+
 %define base_version 1.25.4
 %define base_release 1%{?dist}.ngx
 
@@ -69,12 +72,14 @@ Group: %{_group}
 
 Source0: https://nginx.org/download/nginx-%{base_version}.tar.gz
 Source1: COPYRIGHT
+Source2: https://github.com/quictls/openssl/archive/refs/tags/openssl-%{openssl_version}.tar.gz
 
 License: 2-clause BSD-like license
 
 BuildRoot: %{_tmppath}/%{name}-%{base_version}-%{base_release}-root
 BuildRequires: zlib-devel
 BuildRequires: pcre2-devel
+BuildRequires: perl
 Requires: nginx-r%{base_version}
 Provides: %{name}-r%{base_version}
 
@@ -100,6 +105,7 @@ nginx Brotli dynamic modules.
 %endif
 
 %setup -qcTn %{name}-%{base_version}
+tar -zxf %{SOURCE2}
 tar --strip-components=1 -zxf %{SOURCE0}
 git clone --recursive https://github.com/google/ngx_brotli.git
 cd ngx_brotli/deps/brotli/
@@ -126,6 +132,7 @@ cd ../../../../
 cd %{bdir}
 
 ./configure %{BASE_CONFIGURE_ARGS} %{MODULE_CONFIGURE_ARGS} \
+    --with-openssl=./openssl-openssl-%{openssl_version}/ \
 	--with-cc-opt="%{WITH_CC_OPT} " \
 	--with-ld-opt="%{WITH_LD_OPT} " \
 	--with-debug
@@ -136,6 +143,7 @@ mv $so $debugso
 done
 
 ./configure %{BASE_CONFIGURE_ARGS} %{MODULE_CONFIGURE_ARGS} \
+    --with-openssl=./openssl-openssl-%{openssl_version}/ \
 	--with-cc-opt="%{WITH_CC_OPT} " \
 	--with-ld-opt="%{WITH_LD_OPT} "
 make %{?_smp_mflags} modules
