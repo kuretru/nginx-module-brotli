@@ -108,7 +108,10 @@ nginx Brotli dynamic modules.
 tar -zxf %{SOURCE2}
 tar --strip-components=1 -zxf %{SOURCE0}
 git clone --recursive https://github.com/google/ngx_brotli.git
-cd ngx_brotli/deps/brotli/
+cd ngx_brotli/
+git checkout 6e975bc
+git submodule update --recursive
+cd deps/brotli/
 mkdir out && cd out/
 
 %ifarch aarch64
