@@ -22,7 +22,6 @@ BuildRequires: libopenssl-devel
 %if (0%{?rhel} == 7) && (0%{?amzn} == 0)
 %define epoch 1
 Epoch: %{epoch}
-BuildRequires: cmake3
 BuildRequires: perl-IPC-Cmd
 %define dist .el7
 %endif
@@ -30,13 +29,11 @@ BuildRequires: perl-IPC-Cmd
 %if (0%{?rhel} == 7) && (0%{?amzn} == 2)
 %define epoch 1
 Epoch: %{epoch}
-BuildRequires: cmake3
 %endif
 
 %if 0%{?rhel} == 8
 %define epoch 1
 Epoch: %{epoch}
-BuildRequires: cmake
 %define _debugsource_template %{nil}
 %endif
 
@@ -44,7 +41,6 @@ BuildRequires: cmake
 %define epoch 1
 Epoch: %{epoch}
 BuildRequires: gcc
-BuildRequires: cmake
 %define _debugsource_template %{nil}
 %endif
 
@@ -98,12 +94,6 @@ nginx Brotli dynamic modules.
 
 %prep
 
-%if (0%{?rhel} == 7)
-%global cmake cmake3
-%else
-%global cmake cmake
-%endif
-
 %setup -qcTn %{name}-%{base_version}
 tar -zxf %{SOURCE2}
 tar --strip-components=1 -zxf %{SOURCE0}
@@ -111,22 +101,7 @@ git clone --recursive https://github.com/google/ngx_brotli.git
 cd ngx_brotli/
 git checkout 6e975bc
 git submodule update --recursive
-cd deps/brotli/
-mkdir out && cd out/
-
-%ifarch aarch64
-%{cmake} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF \
-	-DCMAKE_C_FLAGS="-Ofast -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" \
-	-DCMAKE_CXX_FLAGS="-Ofast -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" \
-	-DCMAKE_C_COMPILER_WORKS=1 -DCMAKE_INSTALL_PREFIX=./installed ..
-%else
-%{cmake} -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF \
-	-DCMAKE_C_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" \
-	-DCMAKE_CXX_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" \
-	-DCMAKE_C_COMPILER_WORKS=1 -DCMAKE_INSTALL_PREFIX=./installed ..
-%endif
-%{cmake} --build . --config Release --target brotlienc
-cd ../../../../
+cd ../
 
 
 
