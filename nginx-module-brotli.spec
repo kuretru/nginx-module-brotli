@@ -53,7 +53,7 @@ BuildRequires: git
 
 %define openssl_version 3.1.5-quic1
 
-%define base_version 1.25.4
+%define base_version 1.25.5
 %define base_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{base_version}
@@ -181,6 +181,9 @@ BANNER
 fi
 
 %changelog
+* Mon Jun 22 2024 Eugene Wu <kuretru@gmail.com>
+- base version updated to 1.25.5
+
 * Sat Feb 17 2024 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.25.4
 
