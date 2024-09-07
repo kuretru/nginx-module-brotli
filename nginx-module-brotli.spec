@@ -51,9 +51,9 @@ BuildRequires: gcc
 
 BuildRequires: git
 
-%define openssl_version 3.1.5-quic1
+%define openssl_version 3.1.7-quic1
 
-%define base_version 1.27.0
+%define base_version 1.27.1
 %define base_release 2%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{base_version}
@@ -181,6 +181,9 @@ BANNER
 fi
 
 %changelog
+* Sat Sep 07 2024 Eugene Wu <kuretru@gmail.com>
+- base version updated to 1.27.1
+
 * Mon Jun 22 2024 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.27.0
 
