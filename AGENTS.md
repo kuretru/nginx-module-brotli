@@ -22,7 +22,7 @@
 ## `nginx-module-brotli.spec` 合并要求
 
 - 保留 Brotli 包名、描述、源码来源、文档目录和安装提示。不要引入 image-filter 专属的模块参数、依赖、文件路径或启用说明。
-- 保留 `ngx_brotli` 的获取流程、固定提交和递归子模块更新。Brotli 源码升级与 nginx 升级分开判断，不因更新 nginx 而顺带跟进模块或子模块的新版本。
+- 每次构建获取 `ngx_brotli` 的 `master` 分支，不固定模块提交。Brotli 使用该次模块提交锁定的子模块 commit，保留递归子模块更新，不使用 `git submodule update --remote` 或单独切换 Brotli 分支、标签。
 - 保留 `--add-dynamic-module`、`--with-compat`、两套模块编译步骤及 debug 模块重命名逻辑。继续使用 `make modules` 构建动态模块。
 - 保留 QuicTLS 版本宏、源码地址、解包步骤，以及两处 `--with-openssl` 参数；保留 `--with-http_v3_module` 及相关发行版条件判断。
 - 保留本地额外依赖和其他定制。不要仅因上游不存在对应内容就删除。

@@ -56,11 +56,19 @@ Epoch: %{epoch}
 %endif
 
 BuildRequires: git
+# Brotli 1.2.1 requires CMake 3.15 or newer (EL7 uses the cmake3 package).
+%if 0%{?rhel} == 7
+BuildRequires: cmake3 >= 3.15
+%define brotli_cmake cmake3
+%else
+BuildRequires: cmake >= 3.15
+%define brotli_cmake cmake
+%endif
 
 %define openssl_version 3.1.7-quic1
 
 %define base_version 1.31.9
-%define base_release 1%{?dist}.ngx
+%define base_release 2%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{base_version}
 
@@ -103,16 +111,30 @@ nginx Brotli dynamic modules.
 %setup -qcTn %{name}-%{base_version}
 tar -zxf %{SOURCE2}
 tar --strip-components=1 -zxf %{SOURCE0}
-git clone --recursive https://github.com/google/ngx_brotli.git
+git clone --branch master --recursive https://github.com/google/ngx_brotli.git
 cd ngx_brotli/
-git checkout 6e975bc
-git submodule update --recursive
+# Use the submodule commits recorded by ngx_brotli, without --remote.
+git submodule update --init --recursive
 cd ../
 
 
 
 %build
 
+cd %{bdir}
+
+# ngx_brotli links libraries from deps/brotli/out instead of compiling their
+# sources itself. Build PIC static libraries once for both module variants.
+mkdir -p ngx_brotli/deps/brotli/out
+cd ngx_brotli/deps/brotli/out
+%{brotli_cmake} -G "Unix Makefiles" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_C_FLAGS="%{optflags}" \
+    -DCMAKE_C_FLAGS_RELEASE="-DNDEBUG" \
+    -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DBROTLI_BUILD_TOOLS=OFF ..
+%{brotli_cmake} --build . --target brotlienc -- %{?_smp_mflags}
 cd %{bdir}
 
 ./configure %{BASE_CONFIGURE_ARGS} %{MODULE_CONFIGURE_ARGS} \
@@ -187,6 +209,10 @@ BANNER
 fi
 
 %changelog
+* Sat Nov 21 2026 Eugene Wu <kuretru@gmail.com>
+- track ngx_brotli master and use its pinned Brotli submodule revision
+- build bundled Brotli PIC static libraries with CMake before nginx modules
+
 * Sat Nov 21 2026 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.31.9
 
