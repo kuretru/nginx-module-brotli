@@ -13,7 +13,7 @@ BuildRequires: openssl-devel
 %endif
 %endif
 
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version}
 %define _group Productivity/Networking/Web/Servers
 BuildRequires: libopenssl-devel
 %define _debugsource_template %{nil}
@@ -59,7 +59,7 @@ BuildRequires: git
 
 %define openssl_version 3.1.7-quic1
 
-%define base_version 1.31.8
+%define base_version 1.31.9
 %define base_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{base_version}
@@ -152,7 +152,7 @@ done
 cd %{bdir}
 grep -v 'usr/src' debugfiles.list > debugfiles.list.new && mv debugfiles.list.new debugfiles.list
 cat /dev/null > debugsources.list
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version}
 cat /dev/null > debugsourcefiles.list
 %endif
 
@@ -187,6 +187,9 @@ BANNER
 fi
 
 %changelog
+* Sat Nov 21 2026 Eugene Wu <kuretru@gmail.com>
+- base version updated to 1.31.9
+
 * Mon Nov 02 2026 Eugene Wu <kuretru@gmail.com>
 - base version updated to 1.31.8
 
