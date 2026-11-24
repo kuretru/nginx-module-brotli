@@ -67,8 +67,8 @@ BuildRequires: cmake >= 3.15
 
 %define openssl_version 3.1.7-quic1
 
-%define base_version 1.31.9
-%define base_release 2%{?dist}.ngx
+%define base_version 1.31.10
+%define base_release 1%{?dist}.ngx
 
 %define bdir %{_builddir}/%{name}-%{base_version}
 
@@ -209,6 +209,9 @@ BANNER
 fi
 
 %changelog
+* Tue Nov 24 2026 Eugene Wu <kuretru@gmail.com>
+- base version updated to 1.31.10
+
 * Sat Nov 21 2026 Eugene Wu <kuretru@gmail.com>
 - track ngx_brotli master and use its pinned Brotli submodule revision
 - build bundled Brotli PIC static libraries with CMake before nginx modules
